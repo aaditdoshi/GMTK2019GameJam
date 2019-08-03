@@ -18,7 +18,7 @@ public class GameRule : MonoBehaviour
     }
 
     List<StatueBehaviour> AllStatues = new List<StatueBehaviour>();
-    ArrowBehaviour Arrow;
+    ProjectileMovement Boomerang;
     BossBehaviour bossBehaviour;
     UIController UIController;
     AudioSource audioSource;
@@ -105,9 +105,9 @@ public class GameRule : MonoBehaviour
         float randomPosY = UnityEngine.Random.Range(colliderPos.y - BoxCollider.size.y / 2, colliderPos.y + BoxCollider.size.y / 2);
         Vector3 target = new Vector3(randomPosX, randomPosY, positon.z);
 
-        if(Arrow && Arrow.Status == ArrowStatus.Landed)
+        if(Boomerang && Boomerang.Status == BoomerangStatus.Landed)
         {
-            if ((Arrow.transform.position - target).sqrMagnitude < arrowAvoidance * arrowAvoidance)
+            if ((Boomerang.transform.position - target).sqrMagnitude < arrowAvoidance * arrowAvoidance)
             {
                 const int MAX_ATTEMPT = 10;
                 for (int attempt = 0; attempt < MAX_ATTEMPT; attempt++) 
@@ -149,16 +149,16 @@ public class GameRule : MonoBehaviour
         return false;
     }
 
-    public void AddArrow(ArrowBehaviour arrow)
+    public void RegisterPlayerProjectile(ProjectileMovement boomerang)
     {
-        Arrow = arrow;
+        Boomerang = boomerang;
     }
 
-    public bool NearArrow(Vector3Int node, float arrowAvoidance)
+    public bool NearBoomerang(Vector3Int node, float boomerangAvoidance)
     {
-        if(Arrow != null && Arrow.Status == ArrowStatus.Landed)
+        if(Boomerang != null && Boomerang.Status == BoomerangStatus.Landed)
         {
-            return (Arrow.transform.position - node).sqrMagnitude < arrowAvoidance * arrowAvoidance;
+            return (Boomerang.transform.position - node).sqrMagnitude < boomerangAvoidance * boomerangAvoidance;
         }
         return false;
     }

@@ -116,7 +116,7 @@ public class NavigationGrid : MonoBehaviour
             return false;
         }
 
-        if(GameRule.get.NearArrow(node, ArrowAvoidance))
+        if(GameRule.get.NearBoomerang(node, ArrowAvoidance))
         {
             return false;
         }

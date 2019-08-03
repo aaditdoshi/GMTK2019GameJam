@@ -141,34 +141,31 @@ public class BossBehaviour : MonoBehaviour
                 StartAttack();
               
             }
+            if (!audioSource.isPlaying)
+            {
+                TimeFromLastSound += Time.deltaTime;
+                if (TimeFromLastSound > IdleSoundTimer)
+                {
+                    if (IdleSound.Length > 0)
+                    {
+                        audioSource.PlayOneShot(IdleSound[UnityEngine.Random.Range(0, IdleSound.Length)]);
+                    }
+                }
+            }
+            else
+            {
+                if (TimeFromLastSound > 0.0f)
+                {
+                    IdleSoundTimer = UnityEngine.Random.Range(IdleSoundMaxCooldown / 2, IdleSoundMaxCooldown);
+                    TimeFromLastSound = 0.0f;
+                }
+            }
         }     
 
         if(bDebugAttack && bDebugAttackActive)
         {
             CheckForDebugAttack();
-        }
-
-        if(!audioSource.isPlaying)
-        {
-            
-            
-            TimeFromLastSound += Time.deltaTime;
-            if(TimeFromLastSound > IdleSoundTimer)
-            {
-                if (IdleSound.Length > 0)
-                {
-                    audioSource.PlayOneShot(IdleSound[UnityEngine.Random.Range(0, IdleSound.Length)]);
-                }
-            }
-        }
-        else
-        {
-            if (TimeFromLastSound > 0.0f)
-            {
-                IdleSoundTimer = UnityEngine.Random.Range(IdleSoundMaxCooldown / 2, IdleSoundMaxCooldown);
-                TimeFromLastSound = 0.0f;
-            }
-        }
+        }     
     }
 
     private void CheckForDebugAttack()
