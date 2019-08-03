@@ -75,9 +75,10 @@ public class PlayerShootProjectile : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D Col)
     {
-        Debug.Log("PICKEDUP");
+        Debug.Log(Col.gameObject);
         if (Col.gameObject == SpawnedProjectile)
         {
+            Debug.Log("PICKEDUP");
             Destroy(SpawnedProjectile);
             HasProjectile = true;
         }
