@@ -307,4 +307,25 @@ public class BossBehaviour : MonoBehaviour
     {
         Impact(col);
     }
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        Impact(collider);
+    }
+   
+    private void Impact(Collider2D collider)
+    {
+
+        PlayerMovementScript player = collider.GetComponent<PlayerMovementScript>();
+        if (player)
+        {
+            Debug.Log("Damage player" + player);
+        }
+
+    }
+
+    void OnTriggerStay2D(Collider2D collider)
+    {
+        Impact(collider);
+    }
 }

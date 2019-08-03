@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Spine.Unity;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,7 +15,7 @@ public class PlayerShootProjectile : MonoBehaviour
     private float SpawnOffset = 10;
 
     PlayerMovementScript playerMovementComponent;
-    bool HasProjectile = true;
+    public bool HasProjectile = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,15 +27,19 @@ public class PlayerShootProjectile : MonoBehaviour
     {
         if(Input.GetButtonDown("Jump"))
         {
-            if(HasProjectile)
+            if (HasProjectile)
             {
-               // Debug.Log("FIRE");
-                FireProjectile();
+                playerMovementComponent.GetAnimator().Play("Attack");
                 HasProjectile = false;
             }
         }
 
         
+    }
+
+    public void Attack()
+    {
+        FireProjectile();
     }
 
     void FireProjectile()
@@ -59,9 +64,14 @@ public class PlayerShootProjectile : MonoBehaviour
                     break;
             }
         }
-        Vector2 ProjectileSpawnLocation = gameObject.transform.position + ProjectileDirection * SpawnOffset;
 
-       
+        SkeletonAnimation skeletonAnimation = playerMovementComponent.GetSkeleton();
+        Spine.Bone bone = skeletonAnimation.skeleton.FindBone("Prcs_arm_back_empty5");
+        Vector3 weaponSlotPosition = skeletonAnimation.transform.TransformPoint(new Vector3(bone.WorldX, bone.WorldY, 0f));
+        Vector2 ProjectileSpawnLocation = weaponSlotPosition;
+
+
+
         GameObject CreatedProjectile = Instantiate(ProjectilePrefab, ProjectileSpawnLocation, Quaternion.identity, null);
         ProjectileMovement projectileMovement = CreatedProjectile.GetComponent<ProjectileMovement>();
         if(projectileMovement)

@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using Spine.Unity;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +9,8 @@ public class PlayerMovementScript : MonoBehaviour
     [SerializeField]
     private float PlayerMovementSpeed= 100;
     Rigidbody2D rigidbody;
+    SkeletonAnimation skeletonAnimation;
+    Animator animator;
     public enum EnumPlayerDirection
     {
         Up,
@@ -14,13 +18,25 @@ public class PlayerMovementScript : MonoBehaviour
         Down,
         Left
     }
-
+    Vector2 LastVelocity;
+    bool bInAttack = false;
+    [HideInInspector]
     public EnumPlayerDirection PlayerDirection;
 
     public void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
+        skeletonAnimation = GetComponentInChildren<SkeletonAnimation>();
+        animator = GetComponentInChildren<Animator>();
+        LastVelocity = Vector2.zero;
+        PlayerDirection = EnumPlayerDirection.Right;
     }
+
+    public Animator GetAnimator()
+    {
+        return animator;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,8 +54,53 @@ public class PlayerMovementScript : MonoBehaviour
         Vector2 PlayerInput = GetPlayerInputVector();
         PlayerDirection = GetPlayerDirection(PlayerInput);
         rigidbody.velocity = Vector3.zero;
-        rigidbody.position += PlayerInput * Time.fixedDeltaTime * PlayerMovementSpeed;
-        
+        LastVelocity = PlayerInput * Time.fixedDeltaTime * PlayerMovementSpeed;
+        rigidbody.position += LastVelocity;
+
+
+    }
+
+    private void Update()
+    {
+        if (!bInAttack)
+        {
+            if (Mathf.Approximately(LastVelocity.sqrMagnitude, 0.0f))
+            {
+                animator.Play("Idle");
+            }
+            else
+            {
+                animator.Play("Run");
+            }
+        }
+        if (LastVelocity.x != 0)
+        {
+            if (LastVelocity.x > 0)
+            {
+                if (skeletonAnimation.Skeleton.ScaleX < 0)
+                {
+                    skeletonAnimation.Skeleton.ScaleX = -skeletonAnimation.Skeleton.ScaleX;
+                }
+            }
+            else
+            {
+                if (skeletonAnimation.Skeleton.ScaleX > 0)
+                {
+                    skeletonAnimation.Skeleton.ScaleX = -skeletonAnimation.Skeleton.ScaleX;
+                }
+            }
+        }
+      
+    }
+
+    public SkeletonAnimation GetSkeleton()
+    {
+        return skeletonAnimation;
+    }
+
+    public void SetInAttack(bool value)
+    {
+        bInAttack = value;
     }
 
     Vector2 GetPlayerInputVector()

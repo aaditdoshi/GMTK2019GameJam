@@ -55,5 +55,27 @@ public class ProjectileMovement : MonoBehaviour
     {
         Impact(col);
     }
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        Impact(collider);
+    }
+
+    private void Impact(Collider2D collider)
+    {
+
+        gameObject.layer = BossProjectileCollisionLayer;
+        BossBehaviour bossBehaviour = collider.GetComponent<BossBehaviour>();
+        if (bossBehaviour)
+        {
+            bossBehaviour.TakeDamage(transform.position, collider);
+        }
+
+    }
+
+    void OnTriggerStay2D(Collider2D collider)
+    {
+        Impact(collider);
+    }
 }
 
