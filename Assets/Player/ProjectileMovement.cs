@@ -22,6 +22,8 @@ public class ProjectileMovement : MonoBehaviour
     [SerializeField]
     private float LaunchSpeed = 2;
 
+    Vector3 PostHitLandingLocation;
+    bool bReturning = false;
 
     [SerializeField]
     private float AngularVelocity = 2;
@@ -32,6 +34,25 @@ public class ProjectileMovement : MonoBehaviour
         GameRule.get.RegisterPlayerProjectile(this);
         Rigidbody2D rigidbodycomp = GetComponent<Rigidbody2D>();
         rigidbodycomp.angularVelocity = AngularVelocity;
+        Status = ArrowStatus.Flying;
+    }
+
+    void Update()
+    {
+        if (bReturning && Status == ArrowStatus.Flying)
+        {
+        
+            Rigidbody2D rigidbodycomp = GetComponent<Rigidbody2D>();
+            rigidbodycomp.velocity = (PostHitLandingLocation - gameObject.transform.position).normalized * LaunchSpeed;
+
+            if((PostHitLandingLocation - gameObject.transform.position).sqrMagnitude<0.5)
+            {
+                Status = ArrowStatus.Landed;
+                rigidbodycomp.velocity = Vector3.zero;
+                rigidbodycomp.angularVelocity = 0;
+            }
+
+        }
     }
 
     public void SetLaunchDirection(Vector3 LaunchDir)
@@ -59,6 +80,7 @@ public class ProjectileMovement : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collider)
     {
         Impact(collider);
+       
     }
 
     private void Impact(Collider2D collider)
@@ -69,13 +91,17 @@ public class ProjectileMovement : MonoBehaviour
         if (bossBehaviour)
         {
             bossBehaviour.TakeDamage(transform.position, collider);
+           
         }
-
+        bReturning = true;
+        PostHitLandingLocation = GameRule.get.GetPositionInBounds(0);
+        
     }
 
     void OnTriggerStay2D(Collider2D collider)
     {
         Impact(collider);
+      
     }
 }
 

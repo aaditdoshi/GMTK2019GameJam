@@ -29,7 +29,6 @@ public class BossProjectile : MonoBehaviour
         PlayerMovementScript player = col.gameObject.GetComponent<PlayerMovementScript>();
         if (player)
         {
-            Debug.Log("Damage player" + player);
         }
     }
 

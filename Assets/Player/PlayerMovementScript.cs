@@ -8,7 +8,7 @@ public class PlayerMovementScript : MonoBehaviour
 {
     [SerializeField]
     private float PlayerMovementSpeed= 100;
-    Rigidbody2D rigidbody;
+    Rigidbody2D rigidbody2d;
     SkeletonAnimation skeletonAnimation;
     Animator animator;
     public enum EnumPlayerDirection
@@ -25,7 +25,7 @@ public class PlayerMovementScript : MonoBehaviour
 
     public void Awake()
     {
-        rigidbody = GetComponent<Rigidbody2D>();
+        rigidbody2d = GetComponent<Rigidbody2D>();
         skeletonAnimation = GetComponentInChildren<SkeletonAnimation>();
         animator = GetComponentInChildren<Animator>();
         LastVelocity = Vector2.zero;
@@ -54,9 +54,9 @@ public class PlayerMovementScript : MonoBehaviour
 
         Vector2 PlayerInput = GetPlayerInputVector();
         PlayerDirection = GetPlayerDirection(PlayerInput);
-        rigidbody.velocity = Vector3.zero;
+        rigidbody2d.velocity = Vector3.zero;
         LastVelocity = PlayerInput * Time.fixedDeltaTime * PlayerMovementSpeed;
-        rigidbody.position += LastVelocity;
+        rigidbody2d.position += LastVelocity;
 
 
     }
@@ -146,7 +146,7 @@ public class PlayerMovementScript : MonoBehaviour
                 PlayerDirection = EnumPlayerDirection.Left;
             }
         }
-        Debug.Log(PlayerDirection);
+
         return PlayerDirection;
     }
 }

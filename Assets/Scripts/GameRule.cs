@@ -19,7 +19,7 @@ public class GameRule : MonoBehaviour
     }
 
     List<StatueBehaviour> AllStatues = new List<StatueBehaviour>();
-    ProjectileMovement Boomerang;
+   public  ProjectileMovement Boomerang;
     BossBehaviour bossBehaviour;
     UIController UIController;
     AudioSource audioSource;
