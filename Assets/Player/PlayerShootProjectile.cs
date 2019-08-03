@@ -85,9 +85,9 @@ public class PlayerShootProjectile : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D Col)
     {
-        if (Col.gameObject == SpawnedProjectile)
+        if (Col.gameObject.GetComponent<ProjectileMovement>())
         {
-            Destroy(SpawnedProjectile);
+            Destroy(Col.gameObject);
             HasProjectile = true;
         }
     }

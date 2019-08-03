@@ -319,7 +319,7 @@ public class BossBehaviour : MonoBehaviour
         PlayerMovementScript player = collider.GetComponent<PlayerMovementScript>();
         if (player)
         {
-            Debug.Log("Damage player" + player);
+           
         }
 
     }
