@@ -36,6 +36,11 @@ public class GameRule : MonoBehaviour
         RuntimeTimer = Timer;
     }
 
+    public AudioSource GetAudio()
+    {
+        return audioSource;
+}
+
     public void StartGame()
     {
         bossBehaviour = FindObjectOfType<BossBehaviour>();
@@ -57,6 +62,18 @@ public class GameRule : MonoBehaviour
         return RuntimeTimer;
     }
 
+    public float GetBossHealth()
+    {
+        if (bossBehaviour)
+        {
+            return bossBehaviour.GetHealth() / bossBehaviour.MaxHealth;
+        }
+        else
+        {
+            return 1.0f;
+        }
+    }
+
     public void DragonDead()
     {
         UIController.UpdatePages(UIMode.Vitory);
@@ -64,7 +81,10 @@ public class GameRule : MonoBehaviour
         audioSource.clip = VictorySong;
     }
 
-
+    public bool IsGameActive()
+    {
+        return bTimerActive;
+    }
 
     public void GameOver()
     {

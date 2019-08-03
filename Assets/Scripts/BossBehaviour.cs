@@ -20,11 +20,14 @@ public class BossBehaviour : MonoBehaviour
     public float PathAcceptableDistance = 0.5f;
     public float GoalAcceptableDistance = 1.0f;
     public float Radius = 1.0f;
+
     public GameObject Projectile;
     public GameObject HitVFX;
     public GameObject WeakPointHitVFX;
     private float TimeBeforeAttack;
     private float AngleOffset= 0.0f;
+    private float IdleSoundTimer = 0.0f;
+    private float TimeFromLastSound = 0.0f;
     private Vector3Int[] CurrentPath;
     private int CurrentSegment = 0;
     public Transform DebugNavTarget;
@@ -33,13 +36,22 @@ public class BossBehaviour : MonoBehaviour
     private bool bDebugAttackActive = false;
     public Collider2D WeakPointCollider;
     AudioSource audioSource;
+    public float IdleSoundMaxCooldown = 5.0f;
     public AudioClip[] AttackSound;
+    public AudioClip[] IdleSound;
+    public AudioClip[] HitSound;
+    public AudioClip[] WeakPointHitSound;
     // Start is called before the first frame update
     void Start()
     {
         Animator = GetComponentInChildren<Animator>();
         WeakPointState(false);
         audioSource = GetComponent<AudioSource>();
+    }
+
+    public float GetHealth()
+    {
+        return Health;
     }
 
     public void SetAllowMovement(bool value)
@@ -136,9 +148,26 @@ public class BossBehaviour : MonoBehaviour
             CheckForDebugAttack();
         }
 
-        if(audioSource.isPlaying)
+        if(!audioSource.isPlaying)
         {
-            audioSource.Play();
+            
+            
+            TimeFromLastSound += Time.deltaTime;
+            if(TimeFromLastSound > IdleSoundTimer)
+            {
+                if (IdleSound.Length > 0)
+                {
+                    audioSource.PlayOneShot(IdleSound[UnityEngine.Random.Range(0, IdleSound.Length)]);
+                }
+            }
+        }
+        else
+        {
+            if (TimeFromLastSound > 0.0f)
+            {
+                IdleSoundTimer = UnityEngine.Random.Range(IdleSoundMaxCooldown / 2, IdleSoundMaxCooldown);
+                TimeFromLastSound = 0.0f;
+            }
         }
     }
 
@@ -222,10 +251,18 @@ public class BossBehaviour : MonoBehaviour
             if(bWeakSpot)
             {
                 VFXprefab = WeakPointHitVFX;
+                if (WeakPointHitSound.Length > 0)
+                {
+                    audioSource.PlayOneShot(WeakPointHitSound[UnityEngine.Random.Range(0, WeakPointHitSound.Length)]);
+                }
             }
             else
             {
                 VFXprefab = HitVFX;
+                if (HitSound.Length > 0)
+                {
+                    audioSource.PlayOneShot(HitSound[UnityEngine.Random.Range(0, HitSound.Length)]);
+                }
             }
 
             GameObject go =Instantiate<GameObject>(VFXprefab, ImpactPoint - Vector3.forward, Quaternion.identity);
@@ -243,5 +280,26 @@ public class BossBehaviour : MonoBehaviour
             Animator.Play("Death");
             GameRule.get.DragonDead();
         }
+    }
+
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        Impact(col);
+    }
+
+    private void Impact(Collision2D col)
+    {
+
+        PlayerMovementScript player = col.gameObject.GetComponent<PlayerMovementScript>();
+        if (player)
+        {
+            Debug.Log("Damage player" + player);
+        }
+
+    }
+
+    void OnCollisionStay2D(Collision2D col)
+    {
+        Impact(col);
     }
 }
