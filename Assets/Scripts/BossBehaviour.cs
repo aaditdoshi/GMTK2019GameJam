@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Spine.Unity;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,7 +21,8 @@ public class BossBehaviour : MonoBehaviour
     public float PathAcceptableDistance = 0.5f;
     public float GoalAcceptableDistance = 1.0f;
     public float Radius = 1.0f;
-
+    SkeletonAnimation skeletonAnimation;
+    Vector3 LastVelocity;
     public GameObject Projectile;
     public GameObject HitVFX;
     public GameObject WeakPointHitVFX;
@@ -49,6 +51,7 @@ public class BossBehaviour : MonoBehaviour
         WeakPointState(false);
         audioSource = GetComponent<AudioSource>();
         rigidbody2D = GetComponent<Rigidbody2D>();
+        skeletonAnimation = GetComponent<SkeletonAnimation>();
     }
 
     public float GetHealth()
@@ -118,7 +121,8 @@ public class BossBehaviour : MonoBehaviour
                     Vector3 goal = CurrentPath[CurrentSegment];
                     Vector3 direction = (goal - transform.position).normalized;
 
-                    transform.position += direction * Time.deltaTime * MovementSpeed;
+                    LastVelocity = direction * Time.deltaTime * MovementSpeed; ;
+                    transform.position += LastVelocity;
                     float distance = (goal - transform.position).sqrMagnitude;
 
                     if (distance < PathAcceptableDistance * PathAcceptableDistance)
@@ -129,8 +133,8 @@ public class BossBehaviour : MonoBehaviour
                 else
                 {
                     Vector3 direction = (MovementTarget - transform.position).normalized;
-
-                    transform.position += direction * Time.deltaTime * MovementSpeed;
+                    LastVelocity = direction * Time.deltaTime * MovementSpeed; ;
+                    transform.position += LastVelocity;
                 }
 
             }
@@ -140,6 +144,25 @@ public class BossBehaviour : MonoBehaviour
     void Update()
     {
         TimeBeforeAttack -= Time.deltaTime;
+
+        if (LastVelocity.x != 0)
+        {
+            if (LastVelocity.x > 0)
+            {
+                if (skeletonAnimation.Skeleton.ScaleX < 0)
+                {
+                    skeletonAnimation.Skeleton.ScaleX = -skeletonAnimation.Skeleton.ScaleX;
+                }
+            }
+            else
+            {
+                if (skeletonAnimation.Skeleton.ScaleX > 0)
+                {
+                    skeletonAnimation.Skeleton.ScaleX = -skeletonAnimation.Skeleton.ScaleX;
+                }
+            }
+        }
+
 
 
         if (bAllowMovement)

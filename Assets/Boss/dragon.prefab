@@ -173,7 +173,7 @@ MonoBehaviour:
     type: 3}
   DebugNavTarget: {fileID: 0}
   bShouldInterruptAttack: 1
-  bDebugAttack: 1
+  bDebugAttack: 0
   WeakPointCollider: {fileID: 3648142683602663896}
   IdleSoundMaxCooldown: 5
   AttackSound:

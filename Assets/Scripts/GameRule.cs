@@ -10,6 +10,7 @@ public class GameRule : MonoBehaviour
     float RuntimeTimer = 0.0f;
     NavigationGrid NavigationGrid;
     BoxCollider2D BoxCollider;
+
     public static GameRule get{
         get
         {
@@ -166,6 +167,11 @@ public class GameRule : MonoBehaviour
     public NavigationGrid GetNavigationGrid()
     {
         return NavigationGrid;
+    }
+
+    public Bounds GetBounds()
+    {
+        return BoxCollider.bounds;
     }
 
     public void Update()

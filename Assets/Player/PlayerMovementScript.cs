@@ -48,6 +48,7 @@ public class PlayerMovementScript : MonoBehaviour
     {
         if(!GameRule.get.IsGameActive())
         {
+            LastVelocity = Vector3.zero;
             return;
         }
 
