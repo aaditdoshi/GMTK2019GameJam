@@ -27,6 +27,8 @@ public class NavigationGrid : MonoBehaviour
     static List<Vector3Int> CloseList = new List<Vector3Int>();
     static List<Vector3Int> CurrentPath = new List<Vector3Int>();
 
+    public int MaxHeight;
+
     public void Awake()
     {
         TileMap = GetComponentInChildren<Tilemap>();
@@ -99,12 +101,20 @@ public class NavigationGrid : MonoBehaviour
 
     private bool IsWalkable(Vector3Int node, float ArrowAvoidance)
     {
-        RuleTile tile =  TileMap.GetTile<RuleTile>(node);
+     
+        if(!GameRule.get.GetBounds().Contains(node))
+        {
+            return false;
+        }
+
+        RuleTile tile = TileMap.GetTile<RuleTile>(node);
+
 
         if (tile == null)
         {
             return false;
         }
+        
 
         if(TileMap.GetColliderType(node) != Tile.ColliderType.None)
         {

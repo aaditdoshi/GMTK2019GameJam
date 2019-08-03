@@ -37,8 +37,6 @@ public class CameraBehaviour : MonoBehaviour
 
     void UpdateScreen()
     { 
-        Debug.Log(Screen.width + " " + Screen.height);
-
 
         Vector3 ScreenMax = Camera.main.WorldToScreenPoint(ScreenBounds.bounds.max);
         Vector3 ScreenMin = Camera.main.WorldToScreenPoint(ScreenBounds.bounds.min);
@@ -46,7 +44,7 @@ public class CameraBehaviour : MonoBehaviour
         float width = ScreenMax.x - ScreenMin.x;
         float height = ScreenMax.y - ScreenMin.y;
 
-        Debug.Log(width + " " + height);
+        //Debug.Log(width + " " + height);
 
         float ratio = Mathf.Max(width / Screen.width, height / Screen.height);
 

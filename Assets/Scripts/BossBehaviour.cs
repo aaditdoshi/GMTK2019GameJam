@@ -36,7 +36,6 @@ public class BossBehaviour : MonoBehaviour
     public bool bShouldInterruptAttack = true;
     public bool bDebugAttack = false;
     private bool bDebugAttackActive = false;
-    public Collider2D WeakPointCollider;
     private Rigidbody2D rigidbody2D;
     AudioSource audioSource;
     public float IdleSoundMaxCooldown = 5.0f;
@@ -44,6 +43,9 @@ public class BossBehaviour : MonoBehaviour
     public AudioClip[] IdleSound;
     public AudioClip[] HitSound;
     public AudioClip[] WeakPointHitSound;
+    public float WeakPointRadius = 0.5f;
+    bool bSoundPlayed = false;
+    bool bWeakPointActive = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -75,7 +77,7 @@ public class BossBehaviour : MonoBehaviour
 
     public void WeakPointState(bool state)
     {
-        WeakPointCollider.enabled = state;
+        bWeakPointActive = state;
     }
 
     public void GameOver()
@@ -85,16 +87,28 @@ public class BossBehaviour : MonoBehaviour
 
     public void Attack()
     {
+        if (!bSoundPlayed)
+        {
+            bSoundPlayed = true;
+            if (AttackSound.Length > 0)
+            {
+                audioSource.PlayOneShot(AttackSound[UnityEngine.Random.Range(0, AttackSound.Length)]);
+            }
+        }
+
+        Spine.Bone bone = skeletonAnimation.skeleton.FindBone("drag_head5");
+        Vector3 weaponSlotPosition = skeletonAnimation.transform.TransformPoint(new Vector3(bone.WorldX, bone.WorldY, 0f));
+        Vector2 ProjectileSpawnLocation = weaponSlotPosition;
+
         float angleStepSize = 360.0f / AmountOfProjectile;
         for(int angleStep = 0; angleStep < AmountOfProjectile; angleStep++)
         {
             float rad = (angleStepSize * angleStep + AngleOffset) * Mathf.Deg2Rad ;
-            Vector3 Offset;
+            Vector2 Offset;
             Offset.x = -Radius *  Mathf.Sin(rad);
-            Offset.y = Radius *  Mathf.Cos(rad);
-            Offset.z = 0.0f;
+            Offset.y = Radius *  Mathf.Cos(rad);            
 
-            GameObject go = GameObject.Instantiate<GameObject>(Projectile, transform.position + Offset, Quaternion.identity);
+            GameObject go = GameObject.Instantiate<GameObject>(Projectile, ProjectileSpawnLocation + Offset, Quaternion.identity);
             BossProjectile bossProjectile = go.GetComponent<BossProjectile>();
             bossProjectile.SetupVelocity(Offset);
         }
@@ -149,14 +163,14 @@ public class BossBehaviour : MonoBehaviour
         {
             if (LastVelocity.x > 0)
             {
-                if (skeletonAnimation.Skeleton.ScaleX < 0)
+                if (skeletonAnimation.Skeleton.ScaleX > 0)
                 {
                     skeletonAnimation.Skeleton.ScaleX = -skeletonAnimation.Skeleton.ScaleX;
                 }
             }
             else
             {
-                if (skeletonAnimation.Skeleton.ScaleX > 0)
+                if (skeletonAnimation.Skeleton.ScaleX < 0)
                 {
                     skeletonAnimation.Skeleton.ScaleX = -skeletonAnimation.Skeleton.ScaleX;
                 }
@@ -220,10 +234,7 @@ public class BossBehaviour : MonoBehaviour
         AngleOffset = 0.0f;
         TimeBeforeAttack = AttackCooldown;
         Animator.Play("Attack");
-        if (AttackSound.Length > 0)
-        {
-            audioSource.PlayOneShot(AttackSound[UnityEngine.Random.Range(0, AttackSound.Length)]);
-        }
+        bSoundPlayed = false;
     }
 
     public void GenerateMovementTarget()
@@ -264,7 +275,36 @@ public class BossBehaviour : MonoBehaviour
 
     public void TakeDamage(Vector3 ImpactPoint, Collider2D collider)
     {
-        bool bWeakSpot = collider == WeakPointCollider;
+        bool bWeakSpot = false;
+        Vector2 ImpactPoint2D = ImpactPoint;
+
+
+        Spine.Bone bone = skeletonAnimation.skeleton.FindBone("drag_navel");
+        Vector3 weaponSlotPosition = skeletonAnimation.transform.TransformPoint(new Vector3(bone.WorldX, bone.WorldY, 0f));
+        Vector2 ProjectileSpawnLocation = weaponSlotPosition;
+        Vector2 direction = (ImpactPoint - transform.position).normalized;
+        if (skeletonAnimation.Skeleton.ScaleX > 0)
+        {
+            if (direction.x < 0)
+            {               
+                if ((ProjectileSpawnLocation - ImpactPoint2D).sqrMagnitude < WeakPointRadius * WeakPointRadius)
+                {
+                    bWeakSpot = true;
+                }
+            }
+        }
+        else
+        {
+            if (direction.x > 0)
+            {
+                if ((ProjectileSpawnLocation - ImpactPoint2D).sqrMagnitude < WeakPointRadius * WeakPointRadius)
+                {
+                    bWeakSpot = false;
+                }
+
+            }
+        }
+
         if (bWeakSpot)
         {
             Health -= WeakSpotDamage;
