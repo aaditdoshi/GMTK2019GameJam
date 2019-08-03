@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum BoomerangStatus
+public enum ArrowStatus
 {
     InHand,
     Flying,
@@ -13,7 +13,7 @@ public class ProjectileMovement : MonoBehaviour
 {
 
 
-    public BoomerangStatus Status;
+    public ArrowStatus Status;
 
     public Vector3 MovementDirection;
 

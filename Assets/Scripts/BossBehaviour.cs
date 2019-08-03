@@ -35,6 +35,7 @@ public class BossBehaviour : MonoBehaviour
     public bool bDebugAttack = false;
     private bool bDebugAttackActive = false;
     public Collider2D WeakPointCollider;
+    private Rigidbody2D rigidbody2D;
     AudioSource audioSource;
     public float IdleSoundMaxCooldown = 5.0f;
     public AudioClip[] AttackSound;
@@ -47,6 +48,7 @@ public class BossBehaviour : MonoBehaviour
         Animator = GetComponentInChildren<Animator>();
         WeakPointState(false);
         audioSource = GetComponent<AudioSource>();
+        rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
     public float GetHealth()
@@ -97,11 +99,8 @@ public class BossBehaviour : MonoBehaviour
         AngleOffset += AngleStepBetweenAttack;
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        TimeBeforeAttack -= Time.deltaTime;
-
         if (bAllowMovement)
         {
             bDebugAttackActive = true;
@@ -111,7 +110,7 @@ public class BossBehaviour : MonoBehaviour
             }
 
 
-            if(CurrentSegment >= 0)
+            if (CurrentSegment >= 0)
             {
                 if (CurrentSegment < CurrentPath.Length)
                 {
@@ -133,9 +132,18 @@ public class BossBehaviour : MonoBehaviour
 
                     transform.position += direction * Time.deltaTime * MovementSpeed;
                 }
-                
-            }    
-        
+
+            }
+        }
+    }
+    // Update is called once per frame
+    void Update()
+    {
+        TimeBeforeAttack -= Time.deltaTime;
+
+
+        if (bAllowMovement)
+        {
             if (TimeBeforeAttack <= 0.0f)
             {
                 StartAttack();

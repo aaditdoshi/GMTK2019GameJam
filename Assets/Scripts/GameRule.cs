@@ -105,7 +105,7 @@ public class GameRule : MonoBehaviour
         float randomPosY = UnityEngine.Random.Range(colliderPos.y - BoxCollider.size.y / 2, colliderPos.y + BoxCollider.size.y / 2);
         Vector3 target = new Vector3(randomPosX, randomPosY, positon.z);
 
-        if(Boomerang && Boomerang.Status == BoomerangStatus.Landed)
+        if(Boomerang && Boomerang.Status == ArrowStatus.Landed)
         {
             if ((Boomerang.transform.position - target).sqrMagnitude < arrowAvoidance * arrowAvoidance)
             {
@@ -156,7 +156,7 @@ public class GameRule : MonoBehaviour
 
     public bool NearBoomerang(Vector3Int node, float boomerangAvoidance)
     {
-        if(Boomerang != null && Boomerang.Status == BoomerangStatus.Landed)
+        if(Boomerang != null && Boomerang.Status == ArrowStatus.Landed)
         {
             return (Boomerang.transform.position - node).sqrMagnitude < boomerangAvoidance * boomerangAvoidance;
         }
