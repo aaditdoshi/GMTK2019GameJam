@@ -7,6 +7,8 @@ public class PlayerShootProjectile : MonoBehaviour
     [SerializeField]
     private GameObject ProjectilePrefab;
 
+    GameObject SpawnedProjectile;
+
     public GameObject AimLocation;
     [SerializeField]
     private float SpawnOffset = 10;
@@ -28,6 +30,7 @@ public class PlayerShootProjectile : MonoBehaviour
             {
                // Debug.Log("FIRE");
                 FireProjectile();
+                HasProjectile = false;
             }
         }
 
@@ -65,6 +68,18 @@ public class PlayerShootProjectile : MonoBehaviour
         {
            // Debug.Log(ProjectileDirection);
             projectileMovement.SetLaunchDirection( ProjectileDirection);
+        }
+
+        SpawnedProjectile = CreatedProjectile;
+    }
+
+    void OnCollisionEnter2D(Collision2D Col)
+    {
+        Debug.Log("PICKEDUP");
+        if (Col.gameObject == SpawnedProjectile)
+        {
+            Destroy(SpawnedProjectile);
+            HasProjectile = true;
         }
     }
 }
