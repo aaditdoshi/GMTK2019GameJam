@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 public enum UIMode
 {
@@ -24,15 +24,20 @@ public class UIController : MonoBehaviour
 {
     public UIPage[] pages;
     public TextMeshProUGUI TimerLabel;
+    public Image HealthProgressBar;
+    public float HealthProgressWidth;
+    public AudioClip ButtonClick;
     string TimerFormat ="";
     public void Start()
     {
         UpdatePages(UIMode.Start);
+        HealthProgressWidth = HealthProgressBar.rectTransform.rect.width;
     }
 
     public void StartGame()
     {
         GameRule.get.StartGame();
+        GameRule.get.GetAudio().PlayOneShot(ButtonClick);
         UpdatePages(UIMode.Game);
     }
 
@@ -66,5 +71,9 @@ public class UIController : MonoBehaviour
 
         string niceTime = string.Format(TimerFormat, minutes, seconds, miliseconds);
         TimerLabel.text = niceTime;
+
+        float HealthRatio = GameRule.get.GetBossHealth();
+        HealthProgressBar.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, HealthRatio * HealthProgressWidth);
     }
+
 }

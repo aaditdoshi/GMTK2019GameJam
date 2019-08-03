@@ -175,10 +175,22 @@ MonoBehaviour:
   bShouldInterruptAttack: 1
   bDebugAttack: 1
   WeakPointCollider: {fileID: 3648142683602663896}
+  IdleSoundMaxCooldown: 5
   AttackSound:
   - {fileID: 8300000, guid: fafb26da31fdba2468be00ad50e0a2a1, type: 3}
   - {fileID: 8300000, guid: 413b113c1eade9349ad21e1f7ce657f7, type: 3}
   - {fileID: 8300000, guid: 6d9b497689462d34d98773ac2d0b4f1d, type: 3}
+  IdleSound:
+  - {fileID: 8300000, guid: 13354ff4cd20f9142ac831db4e720a6f, type: 3}
+  - {fileID: 8300000, guid: 6a0d080164b687f4082714dc73366d2e, type: 3}
+  HitSound:
+  - {fileID: 8300000, guid: 6d39f32f4e034424aa2eafac8e8b4729, type: 3}
+  - {fileID: 8300000, guid: d59b36f4366b38747b687fc08c0d7149, type: 3}
+  - {fileID: 8300000, guid: 2a2e07a2b089a984a937fe5d9b46f08c, type: 3}
+  - {fileID: 8300000, guid: cb45449b85b4ce54ca61a8c029f5d9a2, type: 3}
+  - {fileID: 8300000, guid: 8394db0562f03104499980c45c29e423, type: 3}
+  WeakPointHitSound:
+  - {fileID: 8300000, guid: fa7af915bf3ce594f85a4ae09bfdaed7, type: 3}
 --- !u!58 &3648142683602663896
 CircleCollider2D:
   m_ObjectHideFlags: 0

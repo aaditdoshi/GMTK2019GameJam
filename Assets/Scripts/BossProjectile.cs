@@ -26,13 +26,11 @@ public class BossProjectile : MonoBehaviour
     private void Impact(Collision2D col)
     {
         Destroy(gameObject);
-        /*
-        PlayerComponent playerComponent = col.gameObject.GetComponent<PlayerComponent>();
-        if(PlayerComponent)
+        PlayerMovementScript player = col.gameObject.GetComponent<PlayerMovementScript>();
+        if (player)
         {
-            PlayerComponent.ApplyDamage():
+            Debug.Log("Damage player" + player);
         }
-        */
     }
 
     void OnCollisionStay2D(Collision2D col)

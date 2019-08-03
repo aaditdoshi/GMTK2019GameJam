@@ -30,6 +30,10 @@ public class PlayerMovementScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if(!GameRule.get.IsGameActive())
+        {
+            return;
+        }
 
         Vector2 PlayerInput = GetPlayerInputVector();
         PlayerDirection = GetPlayerDirection(PlayerInput);
