@@ -5738,6 +5738,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7841506277177964264, guid: fc7d2e0c64cadad429c02ab9eeea69d5,
+        type: 3}
+      propertyPath: m_Volume
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7644767583572069060, guid: fc7d2e0c64cadad429c02ab9eeea69d5,
         type: 3}
       propertyPath: m_Name
@@ -5823,6 +5828,21 @@ PrefabInstance:
       propertyPath: m_CollisionDetection
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7644767583572069058, guid: fc7d2e0c64cadad429c02ab9eeea69d5,
+        type: 3}
+      propertyPath: AttackSounds.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644767583572069058, guid: fc7d2e0c64cadad429c02ab9eeea69d5,
+        type: 3}
+      propertyPath: AttackSounds.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: de72f2061a566144790f3afae07ac8ed, type: 3}
+    - target: {fileID: 8003509134738855749, guid: fc7d2e0c64cadad429c02ab9eeea69d5,
+        type: 3}
+      propertyPath: SpawnVFX
+      value: 
+      objectReference: {fileID: 100008, guid: 1ca16f2a31fb6a548ad8954bed1d321f, type: 3}
     - target: {fileID: 6534858550820084026, guid: fc7d2e0c64cadad429c02ab9eeea69d5,
         type: 3}
       propertyPath: m_Layer
@@ -7203,7 +7223,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Timer: 60
-  DragonAvoidanceRadius: 10
+  DragonAvoidanceRadius: 5
   Boomerang: {fileID: 0}
   PrincePrefab: {fileID: 4657553965096369091, guid: 7ca4757b4f4084140a9d99958caf3186,
     type: 3}
@@ -8386,6 +8406,16 @@ PrefabInstance:
         type: 3}
       propertyPath: bDebugAttack
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5919810637668673329, guid: 9683cbaadf1d0bd4e8d1f29a01b21a3e,
+        type: 3}
+      propertyPath: MaxHealth
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5919810637668673329, guid: 9683cbaadf1d0bd4e8d1f29a01b21a3e,
+        type: 3}
+      propertyPath: WeakSpotDamage
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2336080474146322791, guid: 9683cbaadf1d0bd4e8d1f29a01b21a3e,
         type: 3}

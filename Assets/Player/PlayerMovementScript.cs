@@ -54,6 +54,7 @@ public class PlayerMovementScript : MonoBehaviour
     {
         if(!GameRule.get.IsGameActive())
         {
+            rigidbody2d.velocity = Vector3.zero;
             LastVelocity = Vector3.zero;
             return;
         }

@@ -177,7 +177,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8394db0562f03104499980c45c29e423, type: 3}
   WeakPointHitSound:
   - {fileID: 8300000, guid: fa7af915bf3ce594f85a4ae09bfdaed7, type: 3}
-  WeakPointRadius: 0.5
+  WeakPointRadius: 1
+  HalfSize: {x: 0, y: 2, z: 0}
 --- !u!82 &2989350665731306916
 AudioSource:
   m_ObjectHideFlags: 0

@@ -30,6 +30,9 @@ public class GameRule : MonoBehaviour
     public AudioClip VictorySong;
     bool bTimerActive = false;
     GameObject princeGO;
+    private Vector3 DebugLastTargetPosition;
+    private Vector3 DebugLastFixedTargetPosition;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -157,6 +160,10 @@ public class GameRule : MonoBehaviour
         float randomPosY = UnityEngine.Random.Range(colliderPos.y - BoxCollider.size.y / 2, colliderPos.y + BoxCollider.size.y / 2);
         Vector3 target = new Vector3(randomPosX, randomPosY, positon.z);
 
+        if (dragonAvoidanceRadius > 0.0f)
+        {       
+            DebugLastTargetPosition = target;
+        }
         if(Boomerang && Boomerang.Status == ArrowStatus.Landed)
         {
             if ((Boomerang.transform.position - target).sqrMagnitude < arrowAvoidance * arrowAvoidance)
@@ -171,15 +178,17 @@ public class GameRule : MonoBehaviour
                     Offset.y = (arrowAvoidance + 0.1f )* Mathf.Cos(rad);
                     Offset.z = 0.0f;
 
-                    if(BoxCollider.bounds.Contains(target + Offset))
+                    if(BoxCollider.bounds.Contains(Boomerang.transform.position + Offset))
                     {
-                        target = target + Offset;
+                        target = Boomerang.transform.position + Offset;
                         break;
                     }
                 }
             }
         }
-        if ((bossBehaviour.transform.position - target).sqrMagnitude < dragonAvoidanceRadius * dragonAvoidanceRadius)
+
+        Vector3 bossPosition = bossBehaviour.transform.position + bossBehaviour.GetHalfSize();
+        if ((bossPosition - target).sqrMagnitude < dragonAvoidanceRadius * dragonAvoidanceRadius)
         {
             const int MAX_ATTEMPT = 10;
             for (int attempt = 0; attempt < MAX_ATTEMPT; attempt++)
@@ -191,14 +200,15 @@ public class GameRule : MonoBehaviour
                 Offset.y = (dragonAvoidanceRadius + 0.1f) * Mathf.Cos(rad);
                 Offset.z = 0.0f;
 
-                if (BoxCollider.bounds.Contains(target + Offset))
+                if (BoxCollider.bounds.Contains(bossPosition + Offset))
                 {
-                    target = target + Offset;
+                    target = bossPosition + Offset;
                     break;
                 }
             }
         }
-
+        if (dragonAvoidanceRadius > 0.0f)
+            DebugLastFixedTargetPosition = target;
 
         return target;
     }
@@ -256,5 +266,14 @@ public class GameRule : MonoBehaviour
                 GameOver();
             }
         }
+    }
+
+    public void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(DebugLastTargetPosition, DragonAvoidanceRadius);
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(DebugLastFixedTargetPosition, 0.2f);
+
     }
 }

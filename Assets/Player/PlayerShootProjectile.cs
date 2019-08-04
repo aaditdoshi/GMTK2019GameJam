@@ -17,15 +17,23 @@ public class PlayerShootProjectile : MonoBehaviour
     PlayerMovementScript playerMovementComponent;
     public bool HasProjectile = true;
     bool bWaitingForAttack = false;
+    AudioSource audioSource;
+    public AudioClip[] AttackSounds;
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         playerMovementComponent = gameObject.GetComponent<PlayerMovementScript>();   
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(!GameRule.get.IsGameActive())
+        {
+            return;
+        }
+
         if(Input.GetButtonDown("Jump"))
         {
             if (HasProjectile)
@@ -48,6 +56,10 @@ public class PlayerShootProjectile : MonoBehaviour
     {
         FireProjectile();
         bWaitingForAttack = false;
+        if (AttackSounds.Length > 0)
+        {
+            audioSource.PlayOneShot(AttackSounds[UnityEngine.Random.Range(0, AttackSounds.Length)]);
+        }
     }
 
     void FireProjectile()

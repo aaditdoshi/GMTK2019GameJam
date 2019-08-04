@@ -7,12 +7,15 @@ public class PlayerDeathComponent : MonoBehaviour
 {
     public GameObject StatuePrefab;
     public GameObject DeathVFX;
+    public GameObject SpawnVFX;
     public bool bDmagable = true;
     PlayerMovementScript playerMovementScript;
-
+    AudioSource audioSource;
+    public AudioClip DeathSFX;
     private void Awake()
     {
         playerMovementScript = GetComponent<PlayerMovementScript>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     void OnCollisionEnter2D(Collision2D Col)
@@ -33,15 +36,22 @@ public class PlayerDeathComponent : MonoBehaviour
             Destroy(VFX, 5.0f);
             GameRule.get.AddStatue(Statue.GetComponent<StatueBehaviour>());
             Vector3 RespawnPosition = GameRule.get.GetPositionInBounds(0.0f, GameRule.get.GetDragonAvoidanceRadius());
+
+            GameObject SpawnVFXGO = Instantiate(SpawnVFX, RespawnPosition, Quaternion.identity);
+            Destroy(SpawnVFXGO, 5.0f);
             StartInvulTimer();
             playerMovementScript.TeleportTo(RespawnPosition);
+            if (DeathSFX)
+            {
+                audioSource.PlayOneShot(DeathSFX);
+            }
         }
     }
 
     private void StartInvulTimer()
     {
         bDmagable = false;
-        StartCoroutine(EnableDamageAfterDelay(0.5f));
+        StartCoroutine(EnableDamageAfterDelay(1.0f));
     }
 
     private IEnumerator EnableDamageAfterDelay(float waitTime)

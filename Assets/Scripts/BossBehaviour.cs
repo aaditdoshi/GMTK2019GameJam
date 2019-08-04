@@ -46,6 +46,10 @@ public class BossBehaviour : MonoBehaviour
     public float WeakPointRadius = 0.5f;
     bool bSoundPlayed = false;
     bool bWeakPointActive = false;
+    public Vector3 HalfSize;
+    private Vector3 DebugLastHitPosition;
+    private Vector3 DebugLastWeakPointPosition;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -167,6 +171,11 @@ public class BossBehaviour : MonoBehaviour
         }
     }
 
+    public Vector3 GetHalfSize()
+    {
+        return HalfSize;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -276,6 +285,7 @@ public class BossBehaviour : MonoBehaviour
 
     public void OnDrawGizmos()
     {
+        /*
         if (CurrentPath != null)
         {
             Gizmos.color = Color.green;
@@ -284,6 +294,12 @@ public class BossBehaviour : MonoBehaviour
                 Gizmos.DrawSphere(segment, 0.5f);
             }
         }
+        */
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(DebugLastHitPosition, 0.2f);
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(DebugLastWeakPointPosition, WeakPointRadius);
     }
 
     public void TakeDamage(Vector3 ImpactPoint, Collider2D collider)
@@ -296,6 +312,8 @@ public class BossBehaviour : MonoBehaviour
         Vector3 weaponSlotPosition = skeletonAnimation.transform.TransformPoint(new Vector3(bone.WorldX, bone.WorldY, 0f));
         Vector2 ProjectileSpawnLocation = weaponSlotPosition;
         Vector2 direction = (ImpactPoint - transform.position).normalized;
+        DebugLastHitPosition = ImpactPoint2D;
+        DebugLastWeakPointPosition = weaponSlotPosition;
         if (skeletonAnimation.Skeleton.ScaleX > 0)
         {
             if (direction.x < 0)

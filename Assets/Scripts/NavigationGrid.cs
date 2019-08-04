@@ -47,6 +47,12 @@ public class NavigationGrid : MonoBehaviour
         Vector3Int Goal = TileMap.WorldToCell(GoalFloat);
         Vector3Int startCell = TileMap.WorldToCell(StartCellFloat);
 
+
+        if(GameRule.get.NearBoomerang(startCell, ArrowAvoidance))
+        {
+            ArrowAvoidance = 0.0f;
+        }
+
         AlgoritmOpenList.Clear();
         CloseList.Clear();
         CurrentPath.Clear();
