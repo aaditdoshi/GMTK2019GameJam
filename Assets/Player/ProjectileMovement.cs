@@ -25,6 +25,7 @@ public class ProjectileMovement : MonoBehaviour
 
     Vector3 PostHitLandingLocation;
     bool bReturning = false;
+    bool bDidHitDragon = false;
 
     [SerializeField]
     private float AngularVelocity = 2;
@@ -89,8 +90,9 @@ public class ProjectileMovement : MonoBehaviour
         {
             bossBehaviour.TakeDamage(transform.position, collider);
             gameObject.layer = BossProjectileCollisionLayer;
+            bDidHitDragon = true;
         }
-        else if(bReturning)
+        else if(bDidHitDragon)
         {
             gameObject.layer = BossProjectileCollisionLayer;
         }
