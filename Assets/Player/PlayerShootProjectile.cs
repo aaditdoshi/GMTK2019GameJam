@@ -1,4 +1,5 @@
 ﻿using Spine.Unity;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -101,6 +102,20 @@ public class PlayerShootProjectile : MonoBehaviour
         }
 
         SpawnedProjectile = CreatedProjectile;
+    }
+
+    public void SetWaitForAttack(bool v)
+    {
+        bWaitingForAttack = false;
+    }
+
+    public void Reset()
+    {
+        if (HasProjectile == false)
+        {
+            HasProjectile = true;
+            Destroy(SpawnedProjectile);
+        }
     }
 
     void OnCollisionEnter2D(Collision2D Col)

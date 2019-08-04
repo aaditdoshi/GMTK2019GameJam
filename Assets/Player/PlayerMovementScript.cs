@@ -46,7 +46,7 @@ public class PlayerMovementScript : MonoBehaviour
     public void TeleportTo(Vector3 respawnPosition)
     {
         rigidbody2d.position = respawnPosition;
-
+        animator.Play("Idle");
     }
 
     // Update is called once per frame

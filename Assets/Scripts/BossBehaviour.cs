@@ -72,12 +72,12 @@ public class BossBehaviour : MonoBehaviour
 
     public void Revieve()
     {
+        gameObject.SetActive(true);
         Health = MaxHealth;
         TimeBeforeAttack = AttackCooldown;
         GenerateMovementTarget();
         Animator.Play("Navigation");
         WeakPointState(false);
-        gameObject.SetActive(true);
     }
 
     public void WeakPointState(bool state)
@@ -304,21 +304,27 @@ public class BossBehaviour : MonoBehaviour
 
     public void TakeDamage(Vector3 ImpactPoint, Collider2D collider)
     {
+        if(!GameRule.get.IsGameActive())
+        {
+            return;
+        }
+
         bool bWeakSpot = false;
         Vector2 ImpactPoint2D = ImpactPoint;
 
 
         Spine.Bone bone = skeletonAnimation.skeleton.FindBone("drag_navel");
         Vector3 weaponSlotPosition = skeletonAnimation.transform.TransformPoint(new Vector3(bone.WorldX, bone.WorldY, 0f));
-        Vector2 ProjectileSpawnLocation = weaponSlotPosition;
+        Vector2 weaponSpotPosition2D = weaponSlotPosition;
         Vector2 direction = (ImpactPoint - transform.position).normalized;
-        DebugLastHitPosition = ImpactPoint2D;
-        DebugLastWeakPointPosition = weaponSlotPosition;
+
         if (skeletonAnimation.Skeleton.ScaleX > 0)
         {
             if (direction.x < 0)
-            {               
-                if ((ProjectileSpawnLocation - ImpactPoint2D).sqrMagnitude < WeakPointRadius * WeakPointRadius)
+            {
+                DebugLastHitPosition = ImpactPoint2D;
+                DebugLastWeakPointPosition = weaponSlotPosition;
+                if ((weaponSpotPosition2D - ImpactPoint2D).sqrMagnitude < WeakPointRadius * WeakPointRadius)
                 {
                     bWeakSpot = true;
                 }
@@ -328,9 +334,11 @@ public class BossBehaviour : MonoBehaviour
         {
             if (direction.x > 0)
             {
-                if ((ProjectileSpawnLocation - ImpactPoint2D).sqrMagnitude < WeakPointRadius * WeakPointRadius)
+                DebugLastHitPosition = ImpactPoint2D;
+                DebugLastWeakPointPosition = weaponSlotPosition;
+                if ((weaponSpotPosition2D - ImpactPoint2D).sqrMagnitude < WeakPointRadius * WeakPointRadius)
                 {
-                    bWeakSpot = false;
+                    bWeakSpot = true;
                 }
 
             }

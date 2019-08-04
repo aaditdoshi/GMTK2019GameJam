@@ -18,6 +18,7 @@ public class UIPage
 {
     public UIMode Mode;
     public GameObject Root;
+    public AudioClip audio;
 }
 
 public class UIController : MonoBehaviour
@@ -27,9 +28,11 @@ public class UIController : MonoBehaviour
     public Image HealthProgressBar;
     public float HealthProgressWidth;
     public AudioClip ButtonClick;
+    public AudioSource MusicSource;
     string TimerFormat ="";
     public void Start()
     {
+        MusicSource = GetComponent<AudioSource>();
         UpdatePages(UIMode.Start);
         HealthProgressWidth = HealthProgressBar.rectTransform.rect.width;
     }
@@ -52,6 +55,12 @@ public class UIController : MonoBehaviour
             else
             {
                 uIPage.Root.SetActive(true);
+                if(uIPage.audio)
+                {
+                    MusicSource.Stop();
+                    MusicSource.clip = uIPage.audio;
+                    MusicSource.Play();
+                }
             }
         }
     }

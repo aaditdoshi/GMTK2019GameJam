@@ -42,6 +42,8 @@ public class PlayerAttackMecanimState : SpineMecanimState
     {
         base.OnStateExit(animator, stateInfo, layerIndex);
         PlayerMovement.SetInAttack(false);
+        PlayerShootProjectile playershoot = animator.transform.root.GetComponent<PlayerShootProjectile>();
+        playershoot.SetWaitForAttack(false);
     }
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -49,10 +51,10 @@ public class PlayerAttackMecanimState : SpineMecanimState
         if (stateInfo.normalizedTime > AttackTime && !bEventSent)
         {
             bEventSent= true;
-            PlayerShootProjectile bossBehaviour = animator.transform.root.GetComponent<PlayerShootProjectile>();
-            if (bossBehaviour)
+            PlayerShootProjectile playershoot = animator.transform.root.GetComponent<PlayerShootProjectile>();
+            if (playershoot)
             {
-                bossBehaviour.Attack();
+                playershoot.Attack();
             }
         }
     }

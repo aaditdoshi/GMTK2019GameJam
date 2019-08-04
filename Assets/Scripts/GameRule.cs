@@ -26,8 +26,6 @@ public class GameRule : MonoBehaviour
     BossBehaviour bossBehaviour;
     UIController UIController;
     AudioSource audioSource;
-    public AudioClip BattleSong;
-    public AudioClip VictorySong;
     bool bTimerActive = false;
     GameObject princeGO;
     private Vector3 DebugLastTargetPosition;
@@ -47,7 +45,7 @@ public class GameRule : MonoBehaviour
     public AudioSource GetAudio()
     {
         return audioSource;
-}
+    }
 
     public void StartGame()
     {
@@ -58,10 +56,10 @@ public class GameRule : MonoBehaviour
         RuntimeTimer = Timer;
         bossBehaviour.Revieve();
         bTimerActive = true;
-        if(audioSource.clip == VictorySong)
-        {
-            audioSource.clip = BattleSong;
-        }
+
+        PlayerShootProjectile player = FindObjectOfType<PlayerShootProjectile>();
+        player.Reset();
+
         if (princeGO)
         {
             Destroy(princeGO);
@@ -99,7 +97,6 @@ public class GameRule : MonoBehaviour
     {
         UIController.UpdatePages(UIMode.Vitory);
         bTimerActive = false;
-        audioSource.clip = VictorySong;
         PlayerMovementScript playerMovement = FindObjectOfType<PlayerMovementScript>();
 
         playerMovement.GetAnimator().Play("Win");
