@@ -20,7 +20,7 @@ TagManager:
   - PlayerProjectile
   - Walls
   - Ignore
-  - 
+  - BossAndPlayerProjectile
   - 
   - 
   - 

@@ -126,6 +126,7 @@ MonoBehaviour:
   MovementDirection: {x: 0, y: 0, z: 0}
   BossProjectileCollisionLayer: 9
   PlayerProjectileCollisionLayer: 11
+  BossAndPlayerProjectileCollisionLayer: 14
   LaunchSpeed: 10
   AngularVelocity: 800
 --- !u!50 &1057632393884538272

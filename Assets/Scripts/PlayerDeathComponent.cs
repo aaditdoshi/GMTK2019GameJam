@@ -28,6 +28,10 @@ public class PlayerDeathComponent : MonoBehaviour
 
     public void OnDeath()
     {
+        if (!GameRule.get.IsGameActive())
+        {
+            return;
+        }
         if (bDmagable)
         {
             GameObject Statue = Instantiate(StatuePrefab, gameObject.transform.position, Quaternion.identity);

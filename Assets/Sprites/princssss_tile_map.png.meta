@@ -14,6 +14,9 @@ TextureImporter:
   - first:
       213: 6465296346044757191
     second: princssss_tile_map_3
+  - first:
+      213: 8993356905072013206
+    second: princssss_tile_map_4
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -57,7 +60,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 350
+  spritePixelsToUnits: 349
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -99,12 +102,12 @@ TextureImporter:
       name: princssss_tile_map_0
       rect:
         serializedVersion: 2
-        x: 33
-        y: 536
+        x: 85
+        y: 811
         width: 350
         height: 350
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -120,12 +123,12 @@ TextureImporter:
       name: princssss_tile_map_1
       rect:
         serializedVersion: 2
-        x: 435
-        y: 538
+        x: 519
+        y: 812
         width: 350
         height: 350
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -141,12 +144,12 @@ TextureImporter:
       name: princssss_tile_map_2
       rect:
         serializedVersion: 2
-        x: 33
-        y: 133
+        x: 85
+        y: 387
         width: 350
         height: 350
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -162,8 +165,29 @@ TextureImporter:
       name: princssss_tile_map_3
       rect:
         serializedVersion: 2
-        x: 435
-        y: 133
+        x: 593
+        y: 436
+        width: 350
+        height: 350
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2516044afa01124eab71a3ba16ca4df
+      internalID: 6465296346044757191
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: princssss_tile_map_4
+      rect:
+        serializedVersion: 2
+        x: 474
+        y: 58
         width: 350
         height: 350
       alignment: 0
@@ -173,8 +197,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a2516044afa01124eab71a3ba16ca4df
-      internalID: 6465296346044757191
+      spriteID: aa7de1feb43d3724ba929942f5534693
+      internalID: 8993356905072013206
       vertices: []
       indices: 
       edges: []

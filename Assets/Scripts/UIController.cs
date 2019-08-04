@@ -19,6 +19,9 @@ public class UIPage
     public UIMode Mode;
     public GameObject Root;
     public AudioClip audio;
+    public RectTransform[] VFXNodes;
+    public GameObject VFX;
+    public bool GursorStatus = false;
 }
 
 public class UIController : MonoBehaviour
@@ -54,6 +57,7 @@ public class UIController : MonoBehaviour
             }
             else
             {
+                Cursor.visible = uIPage.GursorStatus;
                 uIPage.Root.SetActive(true);
                 if(uIPage.audio)
                 {
@@ -61,7 +65,21 @@ public class UIController : MonoBehaviour
                     MusicSource.clip = uIPage.audio;
                     MusicSource.Play();
                 }
+
+                if(uIPage.VFX != null && uIPage.VFXNodes.Length > 0)
+                {
+                    SpawnVFX(uIPage.VFX, uIPage.VFXNodes);
+                }
             }
+        }
+    }
+
+    private void SpawnVFX(GameObject vFX, RectTransform[] vFXNodes)
+    {
+        foreach(RectTransform position in vFXNodes)
+        {
+            GameObject VfXGo = Instantiate<GameObject>(vFX, position);
+            Destroy(VfXGo, 5.0f);
         }
     }
 

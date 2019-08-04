@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Spine.Unity;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,6 +25,7 @@ public class GameRule : MonoBehaviour
     public GameObject PrincePrefab;
     public GameObject WinVFX;
     BossBehaviour bossBehaviour;
+    CameraBehaviour cameraBehaviour;
     UIController UIController;
     AudioSource audioSource;
     bool bTimerActive = false;
@@ -40,6 +42,7 @@ public class GameRule : MonoBehaviour
         UIController = FindObjectOfType<UIController>();
         audioSource = GetComponent<AudioSource>();
         RuntimeTimer = Timer;
+        cameraBehaviour = FindObjectOfType<CameraBehaviour>();
     }
 
     public AudioSource GetAudio()
@@ -59,7 +62,7 @@ public class GameRule : MonoBehaviour
 
         PlayerShootProjectile player = FindObjectOfType<PlayerShootProjectile>();
         player.Reset();
-
+        cameraBehaviour.ResetCamera();
         if (princeGO)
         {
             Destroy(princeGO);
@@ -130,7 +133,28 @@ public class GameRule : MonoBehaviour
             GameObject VFX = Instantiate(WinVFX, bossBehaviour.transform.position, Quaternion.identity);
             Destroy(VFX, 5.0f);
             bossBehaviour.gameObject.SetActive(false);
+
+            if (princeGO)
+            {
+                SkeletonAnimation PrinceSkeleton = princeGO.GetComponentInChildren<SkeletonAnimation>();
+                if (Direction.x > 0)
+                {
+                    if (PrinceSkeleton.Skeleton.ScaleX < 0)
+                    {
+                        PrinceSkeleton.Skeleton.ScaleX = -PrinceSkeleton.Skeleton.ScaleX;
+                    }
+                }
+                else
+                {
+                    if (PrinceSkeleton.Skeleton.ScaleX > 0)
+                    {
+                        PrinceSkeleton.Skeleton.ScaleX = -PrinceSkeleton.Skeleton.ScaleX;
+                    }
+                }
+            }
         }
+
+        cameraBehaviour.FocusCamera(playerMovement.transform.position, bossBehaviour.transform.position);
     }
 
     public bool IsGameActive()

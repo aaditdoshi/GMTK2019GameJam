@@ -19,6 +19,7 @@ public class ProjectileMovement : MonoBehaviour
 
     public int BossProjectileCollisionLayer;
     public int PlayerProjectileCollisionLayer;
+    public int BossAndPlayerProjectileCollisionLayer;
     [SerializeField]
     private float LaunchSpeed = 2;
 
@@ -83,12 +84,19 @@ public class ProjectileMovement : MonoBehaviour
     private void Impact(Collider2D collider)
     {
 
-        gameObject.layer = BossProjectileCollisionLayer;
         BossBehaviour bossBehaviour = collider.GetComponent<BossBehaviour>();
         if (bossBehaviour)
         {
             bossBehaviour.TakeDamage(transform.position, collider);
-           
+            gameObject.layer = BossProjectileCollisionLayer;
+        }
+        else if(bReturning)
+        {
+            gameObject.layer = BossProjectileCollisionLayer;
+        }
+        else
+        {
+            gameObject.layer = BossAndPlayerProjectileCollisionLayer;
         }
         bReturning = true;
         PostHitLandingLocation = GameRule.get.GetPositionInBounds(0, GameRule.get.GetDragonAvoidanceRadius());

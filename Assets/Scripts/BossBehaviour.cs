@@ -49,6 +49,7 @@ public class BossBehaviour : MonoBehaviour
     public Vector3 HalfSize;
     private Vector3 DebugLastHitPosition;
     private Vector3 DebugLastWeakPointPosition;
+    private float TimeInSegment = 0.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -126,14 +127,16 @@ public class BossBehaviour : MonoBehaviour
         if (bAllowMovement)
         {
             bDebugAttackActive = true;
-            if ((transform.position - MovementTarget).sqrMagnitude < GoalAcceptableDistance * GoalAcceptableDistance || CurrentSegment < 0)
+            if ((transform.position - MovementTarget).sqrMagnitude < GoalAcceptableDistance * GoalAcceptableDistance || CurrentSegment < 0 || TimeInSegment > 10.0f)
             {
+                TimeInSegment = 0.0f;
                 GenerateMovementTarget();
             }
 
 
             if (CurrentSegment >= 0)
             {
+                TimeInSegment += Time.deltaTime;
                 if (CurrentSegment < CurrentPath.Length)
                 {
 
@@ -147,6 +150,7 @@ public class BossBehaviour : MonoBehaviour
                     if (distance < PathAcceptableDistance * PathAcceptableDistance)
                     {
                         CurrentSegment++;
+                        TimeInSegment = 0.0f;
                     }
                 }
                 else
@@ -444,10 +448,16 @@ public class BossBehaviour : MonoBehaviour
         //OriginialColor = meshRenderer.material.color;
       
         Debug.Log(meshRenderer.material);
-        meshRenderer.material.SetFloat("_FillPhase", 1);
+        meshRenderer.material.SetFloat("_FillPhase", 0.5f);
+        Invoke("ResetDamageFlash", DamageFlashTime / 3);
+        Invoke("DamageFlash", DamageFlashTime * 2 / 3);
         Invoke("ResetDamageFlash", DamageFlashTime);
     }
-
+    void DamageFlash()
+    {
+        MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
+        meshRenderer.material.SetFloat("_FillPhase", 0.5f);
+    }
     void ResetDamageFlash()
     {
         MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
