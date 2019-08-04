@@ -7,6 +7,7 @@ public class GameRule : MonoBehaviour
 {
     static GameRule sGameRule;
     public float Timer = 60.0f;
+    public float DragonAvoidanceRadius = 10.0f;
     float RuntimeTimer = 0.0f;
     NavigationGrid NavigationGrid;
     BoxCollider2D BoxCollider;
@@ -19,13 +20,16 @@ public class GameRule : MonoBehaviour
     }
 
     List<StatueBehaviour> AllStatues = new List<StatueBehaviour>();
-   public  ProjectileMovement Boomerang;
+    public  ProjectileMovement Boomerang;
+    public GameObject PrincePrefab;
+    public GameObject WinVFX;
     BossBehaviour bossBehaviour;
     UIController UIController;
     AudioSource audioSource;
     public AudioClip BattleSong;
     public AudioClip VictorySong;
     bool bTimerActive = false;
+    GameObject princeGO;
     // Start is called before the first frame update
     void Awake()
     {
@@ -44,7 +48,10 @@ public class GameRule : MonoBehaviour
 
     public void StartGame()
     {
-        bossBehaviour = FindObjectOfType<BossBehaviour>();
+        if (bossBehaviour == null)
+        {
+            bossBehaviour = FindObjectOfType<BossBehaviour>();
+        }
         RuntimeTimer = Timer;
         bossBehaviour.Revieve();
         bTimerActive = true;
@@ -52,6 +59,16 @@ public class GameRule : MonoBehaviour
         {
             audioSource.clip = BattleSong;
         }
+        if (princeGO)
+        {
+            Destroy(princeGO);
+        }
+
+    }
+
+    public void RepathBoss()
+    {
+        bossBehaviour.Repath();
     }
 
     public float GetTimeLeft()
@@ -80,6 +97,34 @@ public class GameRule : MonoBehaviour
         UIController.UpdatePages(UIMode.Vitory);
         bTimerActive = false;
         audioSource.clip = VictorySong;
+        PlayerMovementScript playerMovement = FindObjectOfType<PlayerMovementScript>();
+
+        playerMovement.GetAnimator().Play("Win");
+        Vector3 Direction = bossBehaviour.transform.position - playerMovement.transform.position;
+        if (Direction.x > 0)
+        {
+            if (playerMovement.GetSkeleton().Skeleton.ScaleX < 0)
+            {
+                playerMovement.GetSkeleton().Skeleton.ScaleX = -playerMovement.GetSkeleton().Skeleton.ScaleX;
+            }
+        }
+        else
+        {
+            if (playerMovement.GetSkeleton().Skeleton.ScaleX > 0)
+            {
+                playerMovement.GetSkeleton().Skeleton.ScaleX = -playerMovement.GetSkeleton().Skeleton.ScaleX;
+            }
+        }
+
+        if (PrincePrefab)
+        {
+
+            princeGO = Instantiate(PrincePrefab, bossBehaviour.transform.position, Quaternion.identity);
+
+            GameObject VFX = Instantiate(WinVFX, bossBehaviour.transform.position, Quaternion.identity);
+            Destroy(VFX, 5.0f);
+            bossBehaviour.gameObject.SetActive(false);
+        }
     }
 
     public bool IsGameActive()
@@ -93,12 +138,18 @@ public class GameRule : MonoBehaviour
         {
             Destroy(statue.gameObject);
         }
+        AllStatues.Clear();
         UIController.UpdatePages(UIMode.Defeat);
         bossBehaviour.GameOver();
         bTimerActive = false;
     }
 
-    public Vector3 GetPositionInBounds(float arrowAvoidance)
+    public float GetDragonAvoidanceRadius()
+    {
+        return DragonAvoidanceRadius;
+    }
+
+    public Vector3 GetPositionInBounds(float arrowAvoidance, float dragonAvoidanceRadius = 0.0f)
     {
         Vector3 positon = BoxCollider.transform.position;
         Vector2 colliderPos =new Vector2(positon .x, positon .y) + BoxCollider.offset;
@@ -128,6 +179,26 @@ public class GameRule : MonoBehaviour
                 }
             }
         }
+        if ((bossBehaviour.transform.position - target).sqrMagnitude < dragonAvoidanceRadius * dragonAvoidanceRadius)
+        {
+            const int MAX_ATTEMPT = 10;
+            for (int attempt = 0; attempt < MAX_ATTEMPT; attempt++)
+            {
+                float angleStepSize = 360.0f / MAX_ATTEMPT;
+                float rad = angleStepSize * attempt * Mathf.Deg2Rad;
+                Vector3 Offset;
+                Offset.x = -(dragonAvoidanceRadius + 0.1f) * Mathf.Sin(rad);
+                Offset.y = (dragonAvoidanceRadius + 0.1f) * Mathf.Cos(rad);
+                Offset.z = 0.0f;
+
+                if (BoxCollider.bounds.Contains(target + Offset))
+                {
+                    target = target + Offset;
+                    break;
+                }
+            }
+        }
+
 
         return target;
     }
@@ -135,6 +206,7 @@ public class GameRule : MonoBehaviour
     public void AddStatue(StatueBehaviour statue)
     {
         AllStatues.Add(statue);
+        bossBehaviour.Repath();
     }
 
     public bool HasStatue(Bounds node)

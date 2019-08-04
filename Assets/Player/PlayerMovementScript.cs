@@ -40,7 +40,13 @@ public class PlayerMovementScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        animator.Play("Idle");
+    }
+
+    public void TeleportTo(Vector3 respawnPosition)
+    {
+        rigidbody2d.position = respawnPosition;
+
     }
 
     // Update is called once per frame
@@ -55,14 +61,18 @@ public class PlayerMovementScript : MonoBehaviour
         Vector2 PlayerInput = GetPlayerInputVector();
         PlayerDirection = GetPlayerDirection(PlayerInput);
         rigidbody2d.velocity = Vector3.zero;
-        LastVelocity = PlayerInput * Time.fixedDeltaTime * PlayerMovementSpeed;
-        rigidbody2d.position += LastVelocity;
+        rigidbody2d.velocity = PlayerInput * PlayerMovementSpeed;
+        LastVelocity = rigidbody2d.velocity;
 
 
     }
 
     private void Update()
     {
+        if (!GameRule.get.IsGameActive())
+        {
+            return;
+        }
         if (!bInAttack)
         {
             if (Mathf.Approximately(LastVelocity.sqrMagnitude, 0.0f))

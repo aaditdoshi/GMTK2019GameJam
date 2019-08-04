@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StatueBehaviour : MonoBehaviour
 {
-    [HideInInspector]
+    
     public BoxCollider2D BoxCollider;
 
     private void Awake()

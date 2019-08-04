@@ -48,6 +48,7 @@ public class ProjectileMovement : MonoBehaviour
             if((PostHitLandingLocation - gameObject.transform.position).sqrMagnitude<0.5)
             {
                 Status = ArrowStatus.Landed;
+                GameRule.get.RepathBoss();
                 rigidbodycomp.velocity = Vector3.zero;
                 rigidbodycomp.angularVelocity = 0;
             }
@@ -63,12 +64,7 @@ public class ProjectileMovement : MonoBehaviour
 
     private void Impact(Collision2D col)
     {
-        gameObject.layer = BossProjectileCollisionLayer;
-        BossBehaviour bossBehaviour = col.gameObject.GetComponent<BossBehaviour>();
-        if (bossBehaviour)
-        {
-            bossBehaviour.TakeDamage(col.GetContact(0).point, col.GetContact(0).collider);
-        }
+        Impact(col.collider);
 
     }
 
@@ -94,7 +90,7 @@ public class ProjectileMovement : MonoBehaviour
            
         }
         bReturning = true;
-        PostHitLandingLocation = GameRule.get.GetPositionInBounds(0);
+        PostHitLandingLocation = GameRule.get.GetPositionInBounds(0, GameRule.get.GetDragonAvoidanceRadius());
         
     }
 

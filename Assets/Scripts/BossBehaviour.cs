@@ -73,6 +73,7 @@ public class BossBehaviour : MonoBehaviour
         GenerateMovementTarget();
         Animator.Play("Navigation");
         WeakPointState(false);
+        gameObject.SetActive(true);
     }
 
     public void WeakPointState(bool state)
@@ -154,6 +155,18 @@ public class BossBehaviour : MonoBehaviour
             }
         }
     }
+
+    public void Repath()
+    {
+        CurrentSegment = -1;
+        Vector3Int[] path = GameRule.get.GetNavigationGrid().GetPath(MovementTarget, transform.position, ArrowAvoidance);
+        if(path.Length > 0)
+        {
+            CurrentPath = path;
+            CurrentSegment = 0;
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -344,8 +357,7 @@ public class BossBehaviour : MonoBehaviour
             }
         }
         else
-        {
-            Animator.Play("Death");
+        {     
             GameRule.get.DragonDead();
         }
     }
@@ -379,10 +391,10 @@ public class BossBehaviour : MonoBehaviour
     private void Impact(Collider2D collider)
     {
 
-        PlayerMovementScript player = collider.GetComponent<PlayerMovementScript>();
+        PlayerDeathComponent player = collider.GetComponent<PlayerDeathComponent>();
         if (player)
         {
-           
+            player.OnDeath();
         }
 
     }

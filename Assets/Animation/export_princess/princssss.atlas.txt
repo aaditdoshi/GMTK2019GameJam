@@ -6,133 +6,147 @@ filter: Linear,Linear
 repeat: none
 Prcs_arm_back_empty
   rotate: true
-  xy: 644, 100
+  xy: 644, 108
   size: 61, 127
   orig: 61, 127
   offset: 0, 0
   index: -1
 Prcs_arm_back_with_weapon
   rotate: true
-  xy: 821, 105
+  xy: 821, 113
   size: 82, 109
   orig: 82, 109
   offset: 0, 0
   index: -1
 Prcs_body
   rotate: true
-  xy: 932, 108
+  xy: 932, 116
   size: 73, 88
   orig: 73, 88
   offset: 0, 0
   index: -1
 Prcs_brows
-  rotate: true
-  xy: 744, 20
+  rotate: false
+  xy: 74, 2
   size: 78, 20
   orig: 78, 20
   offset: 0, 0
   index: -1
 Prcs_crown
   rotate: false
-  xy: 766, 29
+  xy: 744, 31
   size: 57, 69
   orig: 57, 69
   offset: 0, 0
   index: -1
 Prcs_dress_down
   rotate: true
-  xy: 2, 46
+  xy: 2, 54
   size: 200, 256
   orig: 200, 256
   offset: 0, 0
   index: -1
 Prcs_dress_up
   rotate: true
-  xy: 260, 30
+  xy: 260, 38
   size: 216, 235
   orig: 216, 235
   offset: 0, 0
   index: -1
 Prcs_eye
   rotate: true
-  xy: 2, 2
+  xy: 2, 10
   size: 42, 70
   orig: 42, 70
   offset: 0, 0
   index: -1
 Prcs_eye_back
-  rotate: true
-  xy: 74, 5
+  rotate: false
+  xy: 773, 102
   size: 39, 67
   orig: 39, 67
   offset: 0, 0
   index: -1
 Prcs_hair_back
   rotate: false
-  xy: 497, 13
+  xy: 497, 21
   size: 127, 106
   orig: 127, 106
   offset: 0, 0
   index: -1
 Prcs_hair_front
   rotate: false
-  xy: 626, 20
+  xy: 626, 28
   size: 116, 78
   orig: 116, 78
   offset: 0, 0
   index: -1
 Prcs_hand
   rotate: true
-  xy: 821, 189
+  xy: 821, 197
   size: 57, 141
   orig: 57, 141
   offset: 0, 0
   index: -1
 Prcs_head
   rotate: false
-  xy: 497, 121
+  xy: 497, 129
   size: 145, 125
   orig: 145, 125
   offset: 0, 0
   index: -1
 Prcs_mouth
   rotate: false
-  xy: 888, 80
+  xy: 223, 29
   size: 32, 23
   orig: 32, 23
   offset: 0, 0
   index: -1
 Prcs_neck
-  rotate: false
-  xy: 143, 5
+  rotate: true
+  xy: 744, 2
   size: 27, 39
   orig: 27, 39
   offset: 0, 0
   index: -1
 Prcs_nose
-  rotate: true
-  xy: 773, 112
+  rotate: false
+  xy: 860, 79
   size: 49, 32
   orig: 49, 32
   offset: 0, 0
   index: -1
 Prcs_shelder
   rotate: true
-  xy: 964, 183
+  xy: 964, 191
   size: 63, 58
   orig: 63, 58
   offset: 0, 0
   index: -1
 Prcs_shelder_ back
-  rotate: false
-  xy: 825, 48
+  rotate: true
+  xy: 803, 39
   size: 61, 55
   orig: 61, 55
   offset: 0, 0
   index: -1
+Prcs_smile
+  rotate: false
+  xy: 159, 29
+  size: 62, 23
+  orig: 62, 23
+  offset: 0, 0
+  index: -1
+Prcs_smile_eyes
+  rotate: false
+  xy: 74, 24
+  size: 83, 28
+  orig: 83, 28
+  offset: 0, 0
+  index: -1
 boomerang
   rotate: true
-  xy: 644, 163
+  xy: 644, 171
   size: 83, 175
   orig: 83, 175
   offset: 0, 0

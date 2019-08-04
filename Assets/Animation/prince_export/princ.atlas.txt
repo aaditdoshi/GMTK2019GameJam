@@ -1,0 +1,104 @@
+
+princ.png
+size: 1024,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+pr_arm_back
+  rotate: true
+  xy: 552, 117
+  size: 137, 155
+  orig: 137, 155
+  offset: 0, 0
+  index: -1
+pr_arm_front
+  rotate: false
+  xy: 205, 90
+  size: 146, 164
+  orig: 146, 164
+  offset: 0, 0
+  index: -1
+pr_body
+  rotate: true
+  xy: 205, 2
+  size: 86, 122
+  orig: 86, 122
+  offset: 0, 0
+  index: -1
+pr_cloak
+  rotate: true
+  xy: 353, 143
+  size: 111, 197
+  orig: 111, 197
+  offset: 0, 0
+  index: -1
+pr_crown
+  rotate: false
+  xy: 953, 192
+  size: 67, 62
+  orig: 67, 62
+  offset: 0, 0
+  index: -1
+pr_eye_back
+  rotate: true
+  xy: 353, 114
+  size: 27, 52
+  orig: 27, 52
+  offset: 0, 0
+  index: -1
+pr_eye_front
+  rotate: true
+  xy: 353, 114
+  size: 27, 52
+  orig: 27, 52
+  offset: 0, 0
+  index: -1
+pr_hair
+  rotate: false
+  xy: 848, 169
+  size: 103, 85
+  orig: 103, 85
+  offset: 0, 0
+  index: -1
+pr_head
+  rotate: false
+  xy: 709, 147
+  size: 137, 107
+  orig: 137, 107
+  offset: 0, 0
+  index: -1
+pr_leg_back
+  rotate: false
+  xy: 102, 32
+  size: 101, 222
+  orig: 101, 222
+  offset: 0, 0
+  index: -1
+pr_leg_front
+  rotate: false
+  xy: 2, 24
+  size: 98, 230
+  orig: 98, 230
+  offset: 0, 0
+  index: -1
+pr_mouth
+  rotate: false
+  xy: 709, 120
+  size: 50, 25
+  orig: 50, 25
+  offset: 0, 0
+  index: -1
+pr_neck
+  rotate: true
+  xy: 156, 3
+  size: 27, 37
+  orig: 27, 37
+  offset: 0, 0
+  index: -1
+pr_nose
+  rotate: false
+  xy: 102, 2
+  size: 52, 28
+  orig: 52, 28
+  offset: 0, 0
+  index: -1

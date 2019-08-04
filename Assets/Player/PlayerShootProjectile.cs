@@ -16,6 +16,7 @@ public class PlayerShootProjectile : MonoBehaviour
 
     PlayerMovementScript playerMovementComponent;
     public bool HasProjectile = true;
+    bool bWaitingForAttack = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,7 +32,13 @@ public class PlayerShootProjectile : MonoBehaviour
             {
                 playerMovementComponent.GetAnimator().Play("Attack");
                 HasProjectile = false;
+                bWaitingForAttack = true;
             }
+        }
+
+        if(HasProjectile == false && SpawnedProjectile == null && !bWaitingForAttack)
+        {
+            HasProjectile = true;
         }
 
         
@@ -40,6 +47,7 @@ public class PlayerShootProjectile : MonoBehaviour
     public void Attack()
     {
         FireProjectile();
+        bWaitingForAttack = false;
     }
 
     void FireProjectile()

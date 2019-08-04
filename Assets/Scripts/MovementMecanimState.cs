@@ -19,6 +19,7 @@ public class MovementMecanimState : StateMachineBehaviour
         BossBehaviour bossBehaviour = animator.transform.root.GetComponent<BossBehaviour>();
         if (bossBehaviour)
         {
+
             bossBehaviour.SetAllowMovement(false);
         }
     }
