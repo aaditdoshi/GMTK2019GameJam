@@ -17,7 +17,6 @@ public class PlayerShootProjectile : MonoBehaviour
 
     PlayerMovementScript playerMovementComponent;
     public bool HasProjectile = true;
-    bool bWaitingForAttack = false;
     AudioSource audioSource;
     public AudioClip[] AttackSounds;
     // Start is called before the first frame update
@@ -39,13 +38,14 @@ public class PlayerShootProjectile : MonoBehaviour
         {
             if (HasProjectile)
             {
-                playerMovementComponent.GetAnimator().Play("Attack");
-                HasProjectile = false;
-                bWaitingForAttack = true;
+                if (!playerMovementComponent.GetAnimator().GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+                {
+                    playerMovementComponent.GetAnimator().Play("Attack");
+                }
             }
         }
 
-        if(HasProjectile == false && SpawnedProjectile == null && !bWaitingForAttack)
+        if(HasProjectile == false && SpawnedProjectile == null)
         {
             HasProjectile = true;
         }
@@ -55,8 +55,8 @@ public class PlayerShootProjectile : MonoBehaviour
 
     public void Attack()
     {
+        HasProjectile = false;
         FireProjectile();
-        bWaitingForAttack = false;
         if (AttackSounds.Length > 0)
         {
             audioSource.PlayOneShot(AttackSounds[UnityEngine.Random.Range(0, AttackSounds.Length)]);
@@ -103,12 +103,7 @@ public class PlayerShootProjectile : MonoBehaviour
 
         SpawnedProjectile = CreatedProjectile;
     }
-
-    public void SetWaitForAttack(bool v)
-    {
-        bWaitingForAttack = false;
-    }
-
+    
     public void Reset()
     {
         if (HasProjectile == false)

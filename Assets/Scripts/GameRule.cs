@@ -65,6 +65,12 @@ public class GameRule : MonoBehaviour
             Destroy(princeGO);
         }
 
+        foreach (StatueBehaviour statue in AllStatues)
+        {
+            Destroy(statue.gameObject);
+        }
+        AllStatues.Clear();
+
     }
 
     public void RepathBoss()
@@ -134,11 +140,6 @@ public class GameRule : MonoBehaviour
 
     public void GameOver()
     {
-        foreach(StatueBehaviour statue in AllStatues)
-        {
-            Destroy(statue.gameObject);
-        }
-        AllStatues.Clear();
         UIController.UpdatePages(UIMode.Defeat);
         bossBehaviour.GameOver();
         bTimerActive = false;
