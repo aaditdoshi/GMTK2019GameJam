@@ -32,7 +32,6 @@ public class GameRule : MonoBehaviour
     GameObject princeGO;
     private Vector3 DebugLastTargetPosition;
     private Vector3 DebugLastFixedTargetPosition;
-
     // Start is called before the first frame update
     void Awake()
     {
@@ -288,6 +287,7 @@ public class GameRule : MonoBehaviour
                 GameOver();
             }
         }
+
     }
 
     public void OnDrawGizmos()

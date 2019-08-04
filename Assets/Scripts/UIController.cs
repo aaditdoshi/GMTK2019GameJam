@@ -103,4 +103,8 @@ public class UIController : MonoBehaviour
         HealthProgressBar.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, HealthRatio * HealthProgressWidth);
     }
 
+    public void Exit()
+    {
+        Application.Quit();
+    }
 }
