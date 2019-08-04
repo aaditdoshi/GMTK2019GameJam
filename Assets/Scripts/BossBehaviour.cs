@@ -308,6 +308,8 @@ public class BossBehaviour : MonoBehaviour
         {
             return;
         }
+        DoDamageFlash();
+
 
         bool bWeakSpot = false;
         Vector2 ImpactPoint2D = ImpactPoint;
@@ -428,5 +430,27 @@ public class BossBehaviour : MonoBehaviour
     void OnTriggerStay2D(Collider2D collider)
     {
         Impact(collider);
+    }
+
+
+
+    public float DamageFlashTime = 0.25f;
+    Color OriginialColor;
+    void DoDamageFlash()
+    {
+
+        MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
+
+        //OriginialColor = meshRenderer.material.color;
+      
+        Debug.Log(meshRenderer.material);
+        meshRenderer.material.SetFloat("_FillPhase", 1);
+        Invoke("ResetDamageFlash", DamageFlashTime);
+    }
+
+    void ResetDamageFlash()
+    {
+        MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
+        meshRenderer.material.SetFloat("_FillPhase", 0);
     }
 }
