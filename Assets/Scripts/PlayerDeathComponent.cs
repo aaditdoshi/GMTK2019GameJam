@@ -10,14 +10,12 @@ public class PlayerDeathComponent : MonoBehaviour
     public GameObject SpawnVFX;
     public bool bDmagable = true;
     PlayerMovementScript playerMovementScript;
-    PlayerShootProjectile playerShootProjectile;
     AudioSource audioSource;
     public AudioClip DeathSFX;
     private void Awake()
     {
         playerMovementScript = GetComponent<PlayerMovementScript>();
         audioSource = GetComponent<AudioSource>();
-        playerShootProjectile = GetComponent<PlayerShootProjectile>();
     }
 
     void OnCollisionEnter2D(Collision2D Col)
