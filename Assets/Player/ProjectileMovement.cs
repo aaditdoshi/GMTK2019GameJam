@@ -47,6 +47,7 @@ public class ProjectileMovement : MonoBehaviour
 
             if((PostHitLandingLocation - gameObject.transform.position).sqrMagnitude<0.5)
             {
+                gameObject.GetComponent<AudioSource>().Stop();
                 Status = ArrowStatus.Landed;
                 GameRule.get.RepathBoss();
                 rigidbodycomp.velocity = Vector3.zero;
